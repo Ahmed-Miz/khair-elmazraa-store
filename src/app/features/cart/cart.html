@@ -1,0 +1,179 @@
+<div class="bg-stone-50 min-h-screen py-8 px-3 sm:px-4" dir="rtl">
+  <div class="max-w-screen-xl mx-auto">
+    <!-- Page Header -->
+    <div class="mb-6 flex items-center justify-between">
+      <div>
+        <h1 class="text-xl sm:text-3xl font-black text-emerald-950 tracking-tight">
+          سلة المشتريات
+        </h1>
+        <p class="text-xs text-stone-500 font-medium mt-0.5">
+          راجع منتجاتك الطازجة وأتمم طلبك بكل سهولة
+        </p>
+      </div>
+      <a
+        routerLink="/shop"
+        class="text-xs font-bold text-amber-600 hover:text-amber-700 transition flex items-center gap-1"
+      >
+        <span>متابعة التسوق</span>
+        <i class="fa-solid fa-arrow-left text-[10px]"></i>
+      </a>
+    </div>
+
+    @if (cartItems().length > 0) {
+      <!-- Cart Layout (Grid: Products + Summary) -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+        <!-- Left/Right: Cart Items List (8 Columns) -->
+        <div class="lg:col-span-8 space-y-3">
+          @for (item of cartItems(); track item.id) {
+            <div
+              class="bg-white border border-stone-200/80 rounded-2xl p-3 sm:p-4 shadow-2xs flex flex-col sm:flex-row items-center justify-between gap-4"
+            >
+              <!-- Product Image & Basic Info -->
+              <div class="flex items-center gap-3.5 w-full sm:w-auto">
+                <img
+                  [src]="item.products?.image_url ? item.products.image_url : item.offers.image_url"
+                  [alt]="item.products?.title ? item.products.title : item.offers.title"
+                  class="w-20 h-20 sm:w-24 sm:h-24 rounded-xl object-cover shrink-0 bg-stone-100"
+                />
+
+                <div class="flex flex-col">
+                  <h3 class="text-sm sm:text-base font-black text-emerald-950 leading-snug">
+                    {{ item.products?.title ? item.products.title : item.offers.title }}
+                  </h3>
+                  <span class="text-xs text-stone-400 font-medium mt-0.5">
+                    سعر الكيلو:
+                    <strong class="text-emerald-900"
+                      >{{
+                        item.products?.price ? item.products.price : item.offers.price
+                      }}
+                      ج.م</strong
+                    >
+                  </span>
+                  @if (item) {
+                    <span
+                      class="text-[11px] text-amber-700 bg-amber-50 border border-amber-200/60 px-2 py-0.5 rounded-md mt-1.5 w-fit"
+                    >
+                      ملاحظة:
+                      {{ item.products?.tag ? item.products.tag : item.offers.saving_amount }}
+                    </span>
+                  }
+                </div>
+              </div>
+
+              <!-- Quantity Controls & Total Price -->
+              <div
+                class="flex items-center justify-between sm:justify-end w-full sm:w-auto gap-4 border-t sm:border-t-0 pt-3 sm:pt-0 border-stone-100"
+              >
+                <!-- Quantity Changer -->
+                <div
+                  class="flex items-center gap-2 bg-stone-50 border border-stone-200 rounded-xl p-1"
+                >
+                  <button
+                    (click)="decreaseQty(item)"
+                    class="w-7 h-7 rounded-lg bg-white text-stone-700 hover:bg-stone-200 flex items-center justify-center font-bold text-xs shadow-2xs transition cursor-pointer"
+                  >
+                    -
+                  </button>
+                  <span class="w-6 text-center text-xs font-black text-emerald-950">
+                    {{ item.quantity }}
+                  </span>
+                  <button
+                    (click)="increaseQty(item)"
+                    class="w-7 h-7 rounded-lg bg-white text-stone-700 hover:bg-stone-200 flex items-center justify-center font-bold text-xs shadow-2xs transition cursor-pointer"
+                  >
+                    +
+                  </button>
+                </div>
+
+                <!-- Item Total Price -->
+                <div class="text-left min-w-[70px]">
+                  <span class="text-base sm:text-lg font-black text-emerald-950 block">
+                    {{
+                      item.products?.price
+                        ? item.products.price * item.quantity
+                        : item.offers.price * item.quantity
+                    }}
+                    <span class="text-xs font-bold text-stone-500">ج.م</span>
+                  </span>
+                </div>
+
+                <!-- Remove Button -->
+                <button
+                  (click)="removeItem(item.id)"
+                  class="text-stone-400 hover:text-red-600 transition p-2 cursor-pointer"
+                  title="حذف المنتج"
+                >
+                  <i class="fa-solid fa-trash-can text-sm"></i>
+                </button>
+              </div>
+            </div>
+          }
+        </div>
+
+        <!-- Order Summary Sidebar (4 Columns) -->
+        <div
+          class="lg:col-span-4 bg-white border border-stone-200/80 rounded-2xl p-5 shadow-xs sticky top-4"
+        >
+          <h2 class="text-base font-black text-emerald-950 pb-3 border-b border-stone-100 mb-4">
+            ملخص الفاتورة
+          </h2>
+
+          <div class="space-y-3 text-xs font-bold text-stone-600 mb-6">
+            <div class="flex justify-between">
+              <span>إجمالي المنتجات:</span>
+              <span class="text-emerald-950 font-black">{{ getSubtotal() }} ج.م</span>
+            </div>
+            <div class="flex justify-between">
+              <span>رسوم التوصيل (لكل الإسكندرية):</span>
+              <span class="text-emerald-950 font-black">{{ deliveryFee }} ج.م</span>
+            </div>
+            <div
+              class="pt-3 border-t border-stone-100 flex justify-between text-sm sm:text-base font-black text-emerald-950"
+            >
+              <span>الإجمالي النهائي:</span>
+              <span class="text-amber-600 text-lg">{{ getTotal() }} ج.م</span>
+            </div>
+          </div>
+
+          <!-- Checkout Button -->
+          <button
+            routerLink="/checkout"
+            class="w-full bg-amber-500 hover:bg-amber-600 active:scale-98 text-white font-black text-sm py-3.5 rounded-xl transition shadow-xs cursor-pointer flex items-center justify-center gap-2"
+          >
+            <span>إتمام الطلب الآن</span>
+            <i class="fa-solid fa-arrow-left text-xs"></i>
+          </button>
+
+          <!-- Security & Trust Notice -->
+          <div
+            class="mt-4 pt-4 border-t border-stone-100 flex items-center justify-center gap-2 text-[11px] text-stone-400 font-medium text-center"
+          >
+            <i class="fa-solid fa-shield-halved text-emerald-600"></i>
+            <span>الدفع عند الاستلام وضمان الجودة الطازجة</span>
+          </div>
+        </div>
+      </div>
+    } @else {
+      <!-- Empty Cart State -->
+      <div
+        class="bg-white border border-stone-200/80 rounded-2xl p-12 text-center max-w-md mx-auto shadow-2xs"
+      >
+        <div
+          class="w-16 h-16 rounded-full bg-amber-50 text-amber-600 flex items-center justify-center mx-auto mb-4 text-2xl border border-amber-100"
+        >
+          <i class="fa-solid fa-basket-shopping"></i>
+        </div>
+        <h3 class="text-lg font-black text-emerald-950 mb-1">سلة مشترياتك فارغة!</h3>
+        <p class="text-xs text-stone-500 mb-6 font-medium">
+          لم تقم بإضافة أي منتجات طازجة للسلة بعد.
+        </p>
+        <a
+          routerLink="/shop"
+          class="inline-block bg-emerald-900 hover:bg-emerald-950 text-white font-bold text-xs px-6 py-3 rounded-xl transition shadow-xs"
+        >
+          تصفح المنتجات الطازجة الآن
+        </a>
+      </div>
+    }
+  </div>
+</div>

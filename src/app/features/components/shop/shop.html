@@ -1,0 +1,167 @@
+<header>
+  <div class="bg-stone-50 border-b border-stone-200/80 py-6 px-4" dir="rtl">
+    <div class="max-w-screen-xl mx-auto flex flex-col gap-4">
+      <!-- Breadcrumb + Page Title -->
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-2">
+        <div>
+          <!-- المسار -->
+          <nav class="flex items-center gap-1.5 text-xs text-stone-400 mb-1">
+            <a routerLink="/home" class="hover:text-emerald-800 transition">الرئيسية</a>
+            <span>/</span>
+            <span class="text-emerald-950 font-bold">المتجر الشامل</span>
+          </nav>
+
+          <h1 class="text-xl md:text-3xl font-black text-emerald-950">متجر خير المزرعة</h1>
+        </div>
+
+        <!-- عدد المنتجات العائضة -->
+        <span
+          class="text-xs font-medium text-stone-500 bg-white px-3 py-1.5 rounded-full border border-stone-200/60 shadow-2xs w-fit"
+        >
+          عرض <strong class="text-emerald-800">{{ cunt() }}</strong> منتج طازج
+        </span>
+      </div>
+
+      <!-- Mini Promotional Banner (بديل السلايدر الضخم) -->
+      <div
+        class="relative bg-emerald-900 text-white rounded-xl p-4 overflow-hidden flex items-center justify-between shadow-xs"
+      >
+        <div class="z-10 flex flex-col gap-0.5">
+          <span class="text-amber-400 text-xs font-bold">عرض اليوم</span>
+          <p class="text-xs md:text-sm font-extrabold">
+            توصيل مجاني للطلبات فوق 500 جنيه على جميع المنتجات الطازجة!
+          </p>
+        </div>
+        <i
+          class="fa-solid fa-truck-fast text-3xl md:text-4xl text-emerald-700/60 absolute left-4"
+        ></i>
+      </div>
+    </div>
+  </div>
+</header>
+
+<section class="py-8 bg-stone-50/50 min-h-screen" dir="rtl">
+  <div class="max-w-screen-xl mx-auto px-4">
+    <!-- 1. Horizontal Scrollable Categories Bar (شريط أقسام المتجر السريع) -->
+    <div class="flex items-center gap-2 overflow-x-auto pb-4 mb-6 no-scrollbar">
+      @for (cat of categories(); track cat.id) {
+        <button
+          (click)="selectCategory(cat.id)"
+          [class]="
+            activeCategory() === cat.id
+              ? 'bg-emerald-900 text-white shadow-md shadow-emerald-900/10'
+              : 'bg-white text-stone-700 hover:bg-stone-100 border border-stone-200/80'
+          "
+          class="flex items-center gap-2.5 px-4 py-2.5 rounded-xl font-bold text-xs whitespace-nowrap transition-all duration-200 cursor-pointer shrink-0"
+        >
+          <i [class]="cat.icon" class="text-sm"></i>
+          <span>{{ cat.name }}</span>
+        </button>
+      }
+    </div>
+
+    <!-- 2. Controls & Filtering Bar (شريط الترتيب وعدد المنتجات) -->
+    <div
+      class="bg-white border border-stone-200/80 rounded-2xl p-4 mb-6 shadow-2xs flex flex-wrap items-center justify-between gap-4"
+    >
+      <!-- Right: Products Count -->
+      <div class="flex items-center gap-2">
+        <span class="w-2.5 h-2.5 rounded-full bg-emerald-600 animate-ping"></span>
+        <p class="text-xs font-bold text-emerald-950">عرض المنتجات الطازجة المتاحة الآن</p>
+      </div>
+
+      <!-- Left: Sorting Dropdown & View Toggles -->
+      <div class="flex items-center gap-3 mr-auto">
+        <div
+          class="flex items-center gap-2 bg-stone-50 border border-stone-200 px-3 py-1.5 rounded-xl text-xs font-medium text-stone-700"
+        >
+          <i class="fa-solid fa-arrow-down-wide-short text-stone-400"></i>
+          <span>الترتيب:</span>
+          <select
+            class="bg-transparent font-bold text-emerald-950 focus:outline-none cursor-pointer"
+          >
+            <option>الأكثر مبيعاً</option>
+            <option>الأقل سعراً</option>
+            <option>الأعلى سعراً</option>
+            <option>الأحدث وصل حديثاً</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3. Products Grid (شبكة كروت المنتجات) -->
+    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-6">
+      @for (product of filteredArticles(); track product.id) {
+        <div
+          class="bg-white border border-stone-200/80 rounded-2xl overflow-hidden hover:shadow-xl transition-all duration-300 flex flex-col justify-between group relative"
+        >
+          <!-- Badges (Fresh & Offers) -->
+          <div class="absolute top-3 right-3 z-10 flex flex-col gap-1 items-start">
+            @if (product.tag) {
+              <span
+                class="bg-amber-500 text-white text-[10px] font-black px-2.5 py-1 rounded-lg shadow-xs"
+              >
+                {{ product.tag }}
+              </span>
+            } @else {
+              <span
+                class="bg-emerald-800 text-emerald-50 text-[10px] font-bold px-2 py-0.5 rounded-md border border-emerald-700 flex items-center gap-1 shadow-xs"
+              >
+                <i class="fa-solid fa-leaf text-[9px]"></i> طازج اليوم
+              </span>
+            }
+          </div>
+
+          <!-- Product Image Container -->
+          <div class="relative aspect-4/3 bg-stone-100 overflow-hidden">
+            <img
+              [src]="product.image_url"
+              [alt]="product.title"
+              class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+            />
+          </div>
+
+          <!-- Product Info -->
+          <div class="p-3 sm:p-4 flex flex-col flex-grow justify-between">
+            <div>
+              <h3
+                class="text-xs sm:text-sm font-black text-emerald-950 line-clamp-2 leading-snug mb-1 group-hover:text-emerald-800 transition"
+              >
+                {{ product.title }}
+              </h3>
+              <span class="text-[10px] sm:text-xs font-semibold text-stone-400 block mb-3">
+                {{ product.description }}
+              </span>
+            </div>
+
+            <!-- Price & Add to Cart Action -->
+            <div class="pt-3 border-t border-stone-100 flex items-center justify-between gap-2">
+              <div class="flex flex-col">
+                @if (product.old_price) {
+                  <span class="text-[10px] text-stone-400 line-through font-medium">
+                    {{ product.old_price }} ج.م
+                  </span>
+                }
+                <div class="flex items-baseline gap-1">
+                  <span class="text-sm sm:text-lg font-black text-emerald-950">
+                    {{ product.price }}
+                  </span>
+                  <span class="text-[10px] font-bold text-stone-500">ج.م</span>
+                </div>
+              </div>
+
+              <!-- Add To Cart Button -->
+              <button
+                (click)="addToItems(product.id)"
+                class="bg-emerald-50 hover:bg-emerald-900 text-emerald-900 hover:text-white border border-emerald-200 hover:border-emerald-900 w-9 h-9 sm:w-10 sm:h-10 rounded-xl flex items-center justify-center transition-all duration-200 cursor-pointer shadow-2xs active:scale-95 shrink-0"
+                title="إضافة للسلة"
+              >
+                <i class="fa-solid fa-cart-plus text-xs sm:text-sm"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+</section>

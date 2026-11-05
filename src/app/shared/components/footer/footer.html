@@ -1,0 +1,148 @@
+<footer class="bg-emerald-950 text-stone-300 pt-12 pb-6 border-t border-emerald-900" dir="rtl">
+  <div class="max-w-screen-xl mx-auto px-4">
+    <!-- Main Footer Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-10 text-right">
+      <!-- Col 1: Brand Info -->
+      <div class="flex flex-col items-start gap-3">
+        <div class="flex items-center gap-2">
+          <img
+            src="/logo.jfif"
+            class="w-10 h-10 rounded-full bg-emerald-900 p-1"
+            alt="خير المزرعة"
+          />
+          <span class="text-xl font-black text-white tracking-tight">خير المزرعة</span>
+        </div>
+        <p class="text-xs text-stone-400 leading-relaxed">
+          طازج من المزرعة لبيتك كل يوم. نضمن لك أعلى معايير الجودة والنظافة في اللحوم والدواجن
+          والمصنعات.
+        </p>
+        <!-- Social Icons -->
+        <div class="flex items-center gap-3 mt-1">
+          <a
+            href="#"
+            class="w-8 h-8 rounded-full bg-emerald-900 hover:bg-emerald-800 text-white flex items-center justify-center transition text-sm"
+          >
+            <i class="fa-brands fa-facebook-f"></i>
+          </a>
+          <a
+            href="#"
+            class="w-8 h-8 rounded-full bg-emerald-900 hover:bg-emerald-800 text-white flex items-center justify-center transition text-sm"
+          >
+            <i class="fa-brands fa-instagram"></i>
+          </a>
+          <a
+            href="#"
+            class="w-8 h-8 rounded-full bg-emerald-900 hover:bg-emerald-800 text-white flex items-center justify-center transition text-sm"
+          >
+            <i class="fa-brands fa-tiktok"></i>
+          </a>
+          <a
+            href="#"
+            class="w-8 h-8 rounded-full bg-emerald-900 hover:bg-emerald-800 text-white flex items-center justify-center transition text-sm"
+          >
+            <i class="fa-brands fa-whatsapp"></i>
+          </a>
+        </div>
+      </div>
+
+      <!-- Col 2: Quick Links -->
+      <div>
+        <h4
+          class="text-sm font-extrabold text-white mb-4 tracking-wide border-b border-emerald-900 pb-2"
+        >
+          روابط سريعة
+        </h4>
+        <ul class="space-y-2.5 text-xs font-medium">
+          <li>
+            <a
+              [routerLink]="['/shop']"
+              [queryParams]="{ category: 'دواجن' }"
+              class="hover:text-emerald-400 transition"
+              >دواجن طازجة</a
+            >
+          </li>
+          <li>
+            <a
+              [routerLink]="['/shop']"
+              [queryParams]="{ category: 'لحوم' }"
+              class="hover:text-emerald-400 transition"
+              >لحوم مستوردة</a
+            >
+          </li>
+          <li>
+            <a
+              [routerLink]="['/shop']"
+              [queryParams]="{ category: 'مصنعات' }"
+              class="hover:text-emerald-400 transition"
+              >المصنعات والبرجر</a
+            >
+          </li>
+          <li>
+            <a routerLink="/savingsOffers" class="hover:text-emerald-400 transition"
+              >عروض التوفير</a
+            >
+          </li>
+        </ul>
+      </div>
+
+      <!-- Col 3: Contact Us -->
+      <div>
+        <h4
+          class="text-sm font-extrabold text-white mb-4 tracking-wide border-b border-emerald-900 pb-2"
+        >
+          تواصل معنا
+        </h4>
+        <ul class="space-y-3 text-xs text-stone-400">
+          <li class="flex items-start gap-2">
+            <i class="fa-solid fa-location-dot text-emerald-500 mt-0.5"></i>
+            <span>الإسكندرية (متوفر توصيل لكل المناطق)</span>
+          </li>
+          <li class="flex items-center gap-2">
+            <i class="fa-solid fa-phone text-emerald-500"></i>
+            <span dir="ltr" class="font-bold text-stone-200">16799</span>
+          </li>
+          <li class="flex items-center gap-2">
+            <i class="fa-solid fa-clock text-emerald-500"></i>
+            <span>مواعيد العمل: كل يوم من 9 ص لـ 11 م</span>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Col 4: Payment Methods -->
+      <div>
+        <h4
+          class="text-sm font-extrabold text-white mb-4 tracking-wide border-b border-emerald-900 pb-2"
+        >
+          طرق الدفع الآمنة
+        </h4>
+        <p class="text-xs text-stone-400 mb-3">نوفر لك طرق دفع متعددة لتسهيل استلام طلبك:</p>
+        <div class="flex flex-wrap gap-2">
+          <span
+            class="bg-emerald-900/80 text-stone-200 text-[11px] font-bold px-3 py-1.5 rounded-lg border border-emerald-800"
+            >الدفع عند الاستلام</span
+          >
+          <span
+            class="bg-emerald-900/80 text-stone-200 text-[11px] font-bold px-3 py-1.5 rounded-lg border border-emerald-800"
+            >فودافون كاش</span
+          >
+          <span
+            class="bg-emerald-900/80 text-stone-200 text-[11px] font-bold px-3 py-1.5 rounded-lg border border-emerald-800"
+            >فيزا / ماستركارد</span
+          >
+        </div>
+      </div>
+    </div>
+
+    <!-- Bottom Copyright Bar -->
+    <div
+      class="pt-6 border-t border-emerald-900/60 flex flex-col sm:flex-row items-center justify-between text-xs text-stone-500 gap-3"
+    >
+      <p>© 2026 خير المزرعة — جميع الحقوق محفوظة.</p>
+      <div class="flex items-center gap-4">
+        <a href="#" class="hover:text-stone-300 transition">سياسة الاسترجاع</a>
+        <span>•</span>
+        <a href="#" class="hover:text-stone-300 transition">الشروط والأحكام</a>
+      </div>
+    </div>
+  </div>
+</footer>
